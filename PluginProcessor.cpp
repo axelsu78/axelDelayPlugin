@@ -117,28 +117,8 @@ void AxelDelayPluginAudioProcessor::releaseResources()
 
 // isBusesLayoutSupported
 #ifndef JucePlugin_PreferredChannelConfigurations
-bool AxelDelayPluginAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) const
-{
-  #if JucePlugin_IsMidiEffect
-    juce::ignoreUnused (layouts);
-    return true;
-  #else
-    // This is the place where you check if the layout is supported.
-    // In this template code we only support mono or stereo.
-    // Some plugin hosts, such as certain GarageBand versions, will only
-    // load plugins that support stereo bus layouts.
-    if (layouts.getMainOutputChannelSet() != juce::AudioChannelSet::mono()
-     && layouts.getMainOutputChannelSet() != juce::AudioChannelSet::stereo())
-        return false;
-
-    // This checks if the input layout matches the output layout
-   #if ! JucePlugin_IsSynth
-    if (layouts.getMainOutputChannelSet() != layouts.getMainInputChannelSet())
-        return false;
-   #endif
-
-    return true;
-  #endif
+bool AxelDelayPluginAudioProcessor::isBusesLayoutSupported(const BusesLayout& layouts) const {
+return layouts.getMainOutputChannelSet() == juce::AudioChannelSet::stereo();
 }
 #endif
 
@@ -164,7 +144,13 @@ void AxelDelayPluginAudioProcessor::processBlock (juce::AudioBuffer<float>& buff
     // the samples and the outer loop is handling the channels.
     // Alternatively, you can process the samples with the channels
     // interleaved by keeping the same state.
-    buffer.applyGain(0.5f);
+    for (int channel = 0; channel < totalNumInputChannels; channel++) {
+        auto* channelData = buffer.getWritePointer(channel);
+
+        for (int sample = 0; sample < buffer.getNumSamples(); sample++) {
+            channelData[sample] *= 0.5f;
+        }
+    }
 
         // ..do something to the data...
 }
