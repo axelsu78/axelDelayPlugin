@@ -1,0 +1,5 @@
+#ignore builds
+axelDelayPlugin/Builds/
+
+#ignore Juicer
+axelDelayPlugin/JuceLibraryCode/
