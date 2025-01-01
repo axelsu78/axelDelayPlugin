@@ -10,6 +10,8 @@
 
 #include <JuceHeader.h>
 
+const juce::ParameterID gainParamID{ "gain", 1 };
+
 //==============================================================================
 /**
 */
@@ -55,5 +57,14 @@ public:
 
 private:
     //==============================================================================
+    // No header function listed in book!
+    juce::AudioParameterFloat* gainParam;
+    
+    juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
+    
+    juce::AudioProcessorValueTreeState apvts{
+        *this, nullptr, "Parameters", createParameterLayout()
+    };
+    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AxelDelayPluginAudioProcessor)
 };
