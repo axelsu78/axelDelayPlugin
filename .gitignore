@@ -1,5 +1,5 @@
 #ignore builds
-axelDelayPlugin/Builds/
+"D:\Audio Plugin Project\axelDelayPlugin\Builds"
 
 #ignore Juicer
-axelDelayPlugin/JuceLibraryCode/
+"D:\Audio Plugin Project\axelDelayPlugin\JuceLibraryCode"
