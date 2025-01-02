@@ -15,10 +15,9 @@ AxelDelayPluginAudioProcessor::AxelDelayPluginAudioProcessor() :
         BusesProperties()
             .withInput("Input", juce::AudioChannelSet::stereo(), true)
             .withOutput("Output", juce::AudioChannelSet::stereo(), true)
-    )
+    ),
+    params(apvts)
 {
-    auto* param = apvts.getParameter(gainParamID.getParamID());
-    gainParam = dynamic_cast<juce::AudioParameterFloat*>(param);
 }
 
 AxelDelayPluginAudioProcessor::~AxelDelayPluginAudioProcessor()
@@ -141,7 +140,7 @@ void AxelDelayPluginAudioProcessor::processBlock (juce::AudioBuffer<float>& buff
     // the samples and the outer loop is handling the channels.
     // Alternatively, you can process the samples with the channels
     // interleaved by keeping the same state.
-    float gainInDecibels = gainParam->get();
+    float gainInDecibels = params.gainParam->get();
 
     float gain = juce::Decibels::decibelsToGain(gainInDecibels);
     
@@ -196,17 +195,4 @@ juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
     return new AxelDelayPluginAudioProcessor();
 }
 
-// Parameter Layout
-juce::AudioProcessorValueTreeState::ParameterLayout
-AxelDelayPluginAudioProcessor::createParameterLayout() {
-    juce::AudioProcessorValueTreeState::ParameterLayout layout;
 
-    // Gain Parameter
-    layout.add(std::make_unique<juce::AudioParameterFloat>(
-        gainParamID,
-        "Output Gain",
-        juce::NormalisableRange<float> {-12.0f, 12.0f},
-        0.0f));
-
-    return layout;
-}
