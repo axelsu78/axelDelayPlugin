@@ -59,7 +59,6 @@ public:
 
 private:
     //==============================================================================
-    // No header function listed in book!
     
     
     juce::AudioProcessorValueTreeState apvts{

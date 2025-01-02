@@ -140,9 +140,8 @@ void AxelDelayPluginAudioProcessor::processBlock (juce::AudioBuffer<float>& buff
     // the samples and the outer loop is handling the channels.
     // Alternatively, you can process the samples with the channels
     // interleaved by keeping the same state.
-    float gainInDecibels = params.gainParam->get();
-
-    float gain = juce::Decibels::decibelsToGain(gainInDecibels);
+    params.update();
+    float gain = params.gain;
     
     for (int channel = 0; channel < totalNumInputChannels; channel++) {
         auto* channelData = buffer.getWritePointer(channel);

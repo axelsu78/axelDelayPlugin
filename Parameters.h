@@ -23,5 +23,10 @@ public:
     static
         juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
 
+    void update() noexcept;
+
+    float gain = 0.0f;
+
+private:
     juce::AudioParameterFloat* gainParam;
 };

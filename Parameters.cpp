@@ -10,10 +10,16 @@
 
 #include "Parameters.h"
 
+template<typename T>
+static void castParameter(juce::AudioProcessorValueTreeState& apvts, const juce::ParameterID& id, T& destination) {
+    destination = dynamic_cast<T>(apvts.getParameter(id.getParamID()));
+    jassert(destination);
+}
+
+// Constructor
 Parameters::Parameters(juce::AudioProcessorValueTreeState& apvts)
 {
-    auto* param = apvts.getParameter(gainParamID.getParamID());
-    gainParam = dynamic_cast<juce::AudioParameterFloat*>(param);
+    castParameter(apvts, gainParamID, gainParam);
 }
 
 // Parameter Layout
@@ -29,4 +35,8 @@ juce::AudioProcessorValueTreeState::ParameterLayout
         0.0f));
 
     return layout;
+}
+
+void Parameters::update() noexcept {
+    gain = juce::Decibels::decibelsToGain(gainParam->get());
 }
