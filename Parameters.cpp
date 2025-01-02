@@ -17,9 +17,10 @@ Parameters::Parameters(juce::AudioProcessorValueTreeState& apvts)
 }
 
 // Parameter Layout
-juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout() {
+juce::AudioProcessorValueTreeState::ParameterLayout 
+    Parameters::createParameterLayout()
+{
     juce::AudioProcessorValueTreeState::ParameterLayout layout;
-
     // Gain Parameter
     layout.add(std::make_unique<juce::AudioParameterFloat>(
         gainParamID,
@@ -29,4 +30,3 @@ juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout() {
 
     return layout;
 }
-

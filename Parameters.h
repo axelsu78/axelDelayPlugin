@@ -20,7 +20,8 @@ public:
 
     Parameters(juce::AudioProcessorValueTreeState& apvts);
 
-    static juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout;
+    static
+        juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
 
     juce::AudioParameterFloat* gainParam;
 };
