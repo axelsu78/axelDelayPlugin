@@ -5,6 +5,8 @@
               pluginManufacturer="Axel" cppLanguageStandard="20" pluginCode="Dlay">
   <MAINGROUP id="OcDovc" name="axelDelayPlugin">
     <GROUP id="{10A45338-FEBA-2014-2815-A708719CEB43}" name="Source">
+      <FILE id="WBPnwR" name="Parameters.cpp" compile="1" resource="0" file="Source/Parameters.cpp"/>
+      <FILE id="cDHwfx" name="Parameters.h" compile="0" resource="0" file="Source/Parameters.h"/>
       <FILE id="PTSJT1" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="PNxBfM" name="PluginProcessor.h" compile="0" resource="0"

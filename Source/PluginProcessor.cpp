@@ -10,17 +10,13 @@
 #include "PluginEditor.h"
 
 //==============================================================================
-AxelDelayPluginAudioProcessor::AxelDelayPluginAudioProcessor()
-#ifndef JucePlugin_PreferredChannelConfigurations
-     : AudioProcessor (BusesProperties()
-                     #if ! JucePlugin_IsMidiEffect
-                      #if ! JucePlugin_IsSynth
-                       .withInput  ("Input",  juce::AudioChannelSet::stereo(), true)
-                      #endif
-                       .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
-                     #endif
-                       )
-#endif
+AxelDelayPluginAudioProcessor::AxelDelayPluginAudioProcessor() :
+    AudioProcessor(
+        BusesProperties()
+            .withInput("Input", juce::AudioChannelSet::stereo(), true)
+            .withOutput("Output", juce::AudioChannelSet::stereo(), true)
+    ),
+    params(apvts)
 {
 }
 
@@ -117,28 +113,8 @@ void AxelDelayPluginAudioProcessor::releaseResources()
 
 // isBusesLayoutSupported
 #ifndef JucePlugin_PreferredChannelConfigurations
-bool AxelDelayPluginAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) const
-{
-  #if JucePlugin_IsMidiEffect
-    juce::ignoreUnused (layouts);
-    return true;
-  #else
-    // This is the place where you check if the layout is supported.
-    // In this template code we only support mono or stereo.
-    // Some plugin hosts, such as certain GarageBand versions, will only
-    // load plugins that support stereo bus layouts.
-    if (layouts.getMainOutputChannelSet() != juce::AudioChannelSet::mono()
-     && layouts.getMainOutputChannelSet() != juce::AudioChannelSet::stereo())
-        return false;
-
-    // This checks if the input layout matches the output layout
-   #if ! JucePlugin_IsSynth
-    if (layouts.getMainOutputChannelSet() != layouts.getMainInputChannelSet())
-        return false;
-   #endif
-
-    return true;
-  #endif
+bool AxelDelayPluginAudioProcessor::isBusesLayoutSupported(const BusesLayout& layouts) const {
+return layouts.getMainOutputChannelSet() == juce::AudioChannelSet::stereo();
 }
 #endif
 
@@ -164,7 +140,16 @@ void AxelDelayPluginAudioProcessor::processBlock (juce::AudioBuffer<float>& buff
     // the samples and the outer loop is handling the channels.
     // Alternatively, you can process the samples with the channels
     // interleaved by keeping the same state.
-    buffer.applyGain(0.5f);
+    params.update();
+    float gain = params.gain;
+    
+    for (int channel = 0; channel < totalNumInputChannels; channel++) {
+        auto* channelData = buffer.getWritePointer(channel);
+
+        for (int sample = 0; sample < buffer.getNumSamples(); sample++) {
+            channelData[sample] *= gain;
+        }
+    }
 
         // ..do something to the data...
 }
@@ -188,16 +173,16 @@ juce::AudioProcessorEditor* AxelDelayPluginAudioProcessor::createEditor()
 // getStateInformation
 void AxelDelayPluginAudioProcessor::getStateInformation (juce::MemoryBlock& destData)
 {
-    // You should use this method to store your parameters in the memory block.
-    // You could do that either as raw data, or use the XML or ValueTree classes
-    // as intermediaries to make it easy to save and load complex data.
+    copyXmlToBinary(*apvts.copyState().createXml(), destData);
 }
 
 // setStateInformation
 void AxelDelayPluginAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
-    // You should use this method to restore your parameters from this memory block,
-    // whose contents will have been created by the getStateInformation() call.
+    std::unique_ptr<juce::XmlElement> xml(getXmlFromBinary(data, sizeInBytes));
+    if (xml.get() != nullptr && xml->hasTagName(apvts.state.getType())) {
+        apvts.replaceState(juce::ValueTree::fromXml(*xml));
+    }
 }
 
 //==============================================================================
@@ -208,3 +193,5 @@ juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
     return new AxelDelayPluginAudioProcessor();
 }
+
+
