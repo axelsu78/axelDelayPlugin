@@ -9,8 +9,7 @@
 #pragma once
 
 #include <JuceHeader.h>
-
-#include <Parameters.h>
+#include "Parameters.h"
 
 
 
@@ -67,5 +66,7 @@ private:
 
     Parameters params;
     
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AxelDelayPluginAudioProcessor)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(AxelDelayPluginAudioProcessor)
+
+    juce::dsp::DelayLine<float, juce::dsp::DelayLineInterpolationTypes::Linear> delayLine;
 };
