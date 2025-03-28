@@ -36,10 +36,6 @@ private:
 	RotaryKnob delayTimeKnob{ "Delay Time", audioProcessor.apvts, delayTimeParamID };
 
     juce::GroupComponent delayGroup, feedbackGroup, outputGroup;
-    
-    juce::AudioProcessorValueTreeState::SliderAttachment attachment{
-        audioProcessor.apvts, gainParamID.getParamID(), gainKnob.slider
-    };
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AxelDelayPluginAudioProcessorEditor)
 };

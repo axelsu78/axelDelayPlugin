@@ -36,7 +36,7 @@ AxelDelayPluginAudioProcessorEditor::AxelDelayPluginAudioProcessorEditor (AxelDe
 	outputGroup.setTextLabelPosition(juce::Justification::horizontallyCentred);
 	// Output Group Individual Knobs
     outputGroup.addAndMakeVisible(gainKnob);
-	outputGroup.addAndMakeVisible(outputGroup); 
+	outputGroup.addAndMakeVisible(mixKnob); 
 	addAndMakeVisible(outputGroup);
 
     setSize(500, 330);
@@ -67,5 +67,6 @@ void AxelDelayPluginAudioProcessorEditor::resized(){
         outputGroup.getX() - delayGroup.getRight() - 20, height);
 
     delayTimeKnob.setTopLeftPosition(20, 20);
-    mixKnob.setTopLeftPosition(mixKnob.getX(), mixKnob.getBottom() + 10);
+    mixKnob.setTopLeftPosition(20, 20);
+    gainKnob.setTopLeftPosition(mixKnob.getX(), mixKnob.getBottom() + 10);
 }
