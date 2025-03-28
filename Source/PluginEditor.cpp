@@ -34,13 +34,10 @@ AxelDelayPluginAudioProcessorEditor::~AxelDelayPluginAudioProcessorEditor()
 //==============================================================================
 
 // Paint
-void AxelDelayPluginAudioProcessorEditor::paint (juce::Graphics& g)
-{
-    // (Our component is opaque, so we must completely fill the background with a solid colour)
+void AxelDelayPluginAudioProcessorEditor::paint (juce::Graphics& g){
     g.fillAll(juce::Colours::grey);
 }
 
-void AxelDelayPluginAudioProcessorEditor::resized()
-{
+void AxelDelayPluginAudioProcessorEditor::resized(){
     slider.setTopLeftPosition(215, 120);
 }
