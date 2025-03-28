@@ -29,5 +29,9 @@ private:
     // access the processor object that created it.
     AxelDelayPluginAudioProcessor& audioProcessor;
 
+    juce::Slider slider;
+
+    juce::Label label;
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AxelDelayPluginAudioProcessorEditor)
 };
