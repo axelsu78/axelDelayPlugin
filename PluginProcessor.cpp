@@ -100,22 +100,8 @@ void AxelDelayPluginAudioProcessor::changeProgramName (int index, const juce::St
 // prepareToPlay
 void AxelDelayPluginAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-	params.prepareToPlay(sampleRate);
-    params.reset();
-
-    juce::dsp::ProcessSpec spec;
-	spec.sampleRate = sampleRate;
-    spec.maximumBlockSize = juce::uint32(samplesPerBlock);
-    spec.numChannels = 2;
-    
-    delayLine.prepare(spec);
-
-    double numSamples = Parameters::maxDelayTime / 1000.0 * sampleRate;
-    int maxDelayInSamples = int(std::ceil(numSamples));
-    delayLine.setMaximumDelayInSamples(maxDelayInSamples);
-    delayLine.reset();
-
-    DBG(maxDelayInSamples);
+    // Use this method as the place to do any pre-playback
+    // initialisation that you need..
 }
 
 // releaseResources
@@ -139,37 +125,33 @@ void AxelDelayPluginAudioProcessor::processBlock (juce::AudioBuffer<float>& buff
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
 
+    // In case we have more outputs than inputs, this code clears any output
+    // channels that didn't contain input data, (because these aren't
+    // guaranteed to be empty - they may contain garbage).
+    // This is here to avoid people getting screaming feedback
+    // when they first compile a plugin, but obviously you don't need to keep
+    // this code if your algorithm always overwrites all the output channels.
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
+    // This is the place where you'd normally do the guts of your plugin's
+    // audio processing...
+    // Make sure to reset the state if your inner loop is processing
+    // the samples and the outer loop is handling the channels.
+    // Alternatively, you can process the samples with the channels
+    // interleaved by keeping the same state.
     params.update();
-
-    float sampleRate = float(getSampleRate());
+    float gain = params.gain;
     
-    
-	float* channelDataL = buffer.getWritePointer(0);
-	float* channelDataR = buffer.getWritePointer(1);
+    for (int channel = 0; channel < totalNumInputChannels; channel++) {
+        auto* channelData = buffer.getWritePointer(channel);
 
-    for (int sample = 0; sample < buffer.getNumSamples(); sample++) {
-        params.smoothen();
-        float delayInSamples = params.delayTime / 1000.0f * sampleRate;
-        delayLine.setDelay(delayInSamples);
+        for (int sample = 0; sample < buffer.getNumSamples(); sample++) {
+            channelData[sample] *= gain;
+        }
+    }
 
-        float dryL = channelDataL[sample];
-        float dryR = channelDataR[sample];
-
-        delayLine.pushSample(0, dryL);
-		delayLine.pushSample(1, dryR);
-
-		float wetL = delayLine.popSample(0);
-		float wetR = delayLine.popSample(1);
-
-		float mixL = dryL + wetL * params.mix;
-		float mixR = dryR + wetR * params.mix;
-
-        channelDataL[sample] = mixL * params.gain;
-		channelDataR[sample] = mixR * params.gain;
-    }     
+        // ..do something to the data...
 }
 
 //==============================================================================
