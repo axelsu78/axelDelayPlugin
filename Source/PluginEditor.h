@@ -11,6 +11,7 @@
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
 #include "Parameters.h"
+#include "RotaryKnob.h"
 
 //==============================================================================
 /**
@@ -29,12 +30,15 @@ private:
     
     AxelDelayPluginAudioProcessor& audioProcessor;
 
-    juce::Slider slider;
+    // Knobs:
+    RotaryKnob gainKnob { "Gain", audioProcessor.apvts, gainParamID };
+    RotaryKnob mixKnob{ "Mix", audioProcessor.apvts, mixParamID };
+	RotaryKnob delayTimeKnob{ "Delay Time", audioProcessor.apvts, delayTimeParamID };
 
-    juce::Label label;
+    juce::GroupComponent delayGroup, feedbackGroup, outputGroup;
     
     juce::AudioProcessorValueTreeState::SliderAttachment attachment{
-        audioProcessor.apvts, gainParamID.getParamID(), slider
+        audioProcessor.apvts, gainParamID.getParamID(), gainKnob.slider
     };
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AxelDelayPluginAudioProcessorEditor)

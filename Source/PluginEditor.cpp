@@ -13,16 +13,31 @@
 AxelDelayPluginAudioProcessorEditor::AxelDelayPluginAudioProcessorEditor (AxelDelayPluginAudioProcessor& p)
     : AudioProcessorEditor (&p), audioProcessor (p)
 {
-    slider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
-    slider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 70, 16);
-    slider.setBounds(0, 0, 70, 86);
-	addAndMakeVisible(slider);
+    //// Knobs:
+    //addAndMakeVisible(gainKnob);
+    //addAndMakeVisible(mixKnob);
+    //addAndMakeVisible(delayTimeKnob);
 
-    label.setText("Gain", juce::NotificationType::dontSendNotification);
-    label.setJustificationType(juce::Justification::horizontallyCentred);
-    label.setBorderSize(juce::BorderSize<int>{0, 0, 2, 0});
-    label.attachToComponent(&slider, false);
-    addAndMakeVisible(label);
+    // Delay Group
+    delayGroup.setText("Delay");
+    delayGroup.setTextLabelPosition(juce::Justification::horizontallyCentred);
+	// Delay Group Individual Knobs
+    delayGroup.addAndMakeVisible(delayTimeKnob);
+	addAndMakeVisible(delayGroup);
+
+    // Feedback Group
+    feedbackGroup.setText("Feedback");
+    feedbackGroup.setTextLabelPosition(juce::Justification::horizontallyCentred);
+    // Feedback Group Individual Knobs
+    addAndMakeVisible(feedbackGroup);
+
+    // Output Group
+    outputGroup.setText("Output");
+	outputGroup.setTextLabelPosition(juce::Justification::horizontallyCentred);
+	// Output Group Individual Knobs
+    outputGroup.addAndMakeVisible(gainKnob);
+	outputGroup.addAndMakeVisible(outputGroup); 
+	addAndMakeVisible(outputGroup);
 
     setSize(500, 330);
 }
@@ -39,5 +54,18 @@ void AxelDelayPluginAudioProcessorEditor::paint (juce::Graphics& g){
 }
 
 void AxelDelayPluginAudioProcessorEditor::resized(){
-    slider.setTopLeftPosition(215, 120);
+	auto bounds = getLocalBounds();
+
+    int y = 10;
+    int height = bounds.getHeight() - 20;
+
+    delayGroup.setBounds(10, y, 110, height);
+
+    outputGroup.setBounds(bounds.getWidth() - 160, y, 150, height);
+
+    feedbackGroup.setBounds(delayGroup.getRight() + 10, y, 
+        outputGroup.getX() - delayGroup.getRight() - 20, height);
+
+    delayTimeKnob.setTopLeftPosition(20, 20);
+    mixKnob.setTopLeftPosition(mixKnob.getX(), mixKnob.getBottom() + 10);
 }
