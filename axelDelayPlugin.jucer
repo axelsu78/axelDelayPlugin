@@ -5,6 +5,8 @@
               pluginManufacturer="Axel" cppLanguageStandard="20" pluginCode="Dlay">
   <MAINGROUP id="OcDovc" name="axelDelayPlugin">
     <GROUP id="{10A45338-FEBA-2014-2815-A708719CEB43}" name="Source">
+      <FILE id="xteMtt" name="LookAndFeel.cpp" compile="1" resource="0" file="Source/LookAndFeel.cpp"/>
+      <FILE id="LfuuhB" name="LookAndFeel.h" compile="0" resource="0" file="Source/LookAndFeel.h"/>
       <FILE id="WBPnwR" name="Parameters.cpp" compile="1" resource="0" file="Source/Parameters.cpp"/>
       <FILE id="cDHwfx" name="Parameters.h" compile="0" resource="0" file="Source/Parameters.h"/>
       <FILE id="NAaboi" name="PluginEditor.cpp" compile="1" resource="0"
