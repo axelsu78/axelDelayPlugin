@@ -50,7 +50,7 @@ AxelDelayPluginAudioProcessorEditor::~AxelDelayPluginAudioProcessorEditor()
 
 // Paint
 void AxelDelayPluginAudioProcessorEditor::paint (juce::Graphics& g){
-    g.fillAll(juce::Colours::grey);
+    g.fillAll(Colors::background);
 }
 
 void AxelDelayPluginAudioProcessorEditor::resized(){
