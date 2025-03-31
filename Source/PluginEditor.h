@@ -32,7 +32,7 @@ private:
     AxelDelayPluginAudioProcessor& audioProcessor;
 
     // Knobs:
-    RotaryKnob gainKnob { "Gain", audioProcessor.apvts, gainParamID };
+    RotaryKnob gainKnob { "Gain", audioProcessor.apvts, gainParamID, true };
     RotaryKnob mixKnob{ "Mix", audioProcessor.apvts, mixParamID };
 	RotaryKnob delayTimeKnob{ "Delay Time", audioProcessor.apvts, delayTimeParamID };
 

@@ -69,4 +69,7 @@ void AxelDelayPluginAudioProcessorEditor::resized(){
     delayTimeKnob.setTopLeftPosition(20, 20);
     mixKnob.setTopLeftPosition(20, 20);
     gainKnob.setTopLeftPosition(mixKnob.getX(), mixKnob.getBottom() + 10);
+
+    gainKnob.slider.setColour(juce::Slider::rotarySliderFillColourId,
+        juce::Colours::green);
 }
