@@ -4,6 +4,9 @@
               addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1" pluginName="Axel's Delay Plugin Project"
               pluginManufacturer="Axel" cppLanguageStandard="20" pluginCode="Dlay">
   <MAINGROUP id="OcDovc" name="axelDelayPlugin">
+    <GROUP id="{841DF512-4091-433A-EDDB-F07850BF199F}" name="Assets">
+      <FILE id="te2hNr" name="Lato-Medium.ttf" compile="0" resource="1" file="Lato-Medium.ttf"/>
+    </GROUP>
     <GROUP id="{10A45338-FEBA-2014-2815-A708719CEB43}" name="Source">
       <FILE id="xteMtt" name="LookAndFeel.cpp" compile="1" resource="0" file="Source/LookAndFeel.cpp"/>
       <FILE id="LfuuhB" name="LookAndFeel.h" compile="0" resource="0" file="Source/LookAndFeel.h"/>

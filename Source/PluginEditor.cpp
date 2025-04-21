@@ -39,11 +39,12 @@ AxelDelayPluginAudioProcessorEditor::AxelDelayPluginAudioProcessorEditor (AxelDe
 	outputGroup.addAndMakeVisible(mixKnob); 
 	addAndMakeVisible(outputGroup);
 
+    setLookAndFeel(&mainLF);
     setSize(500, 330);
 }
 
-AxelDelayPluginAudioProcessorEditor::~AxelDelayPluginAudioProcessorEditor()
-{
+AxelDelayPluginAudioProcessorEditor::~AxelDelayPluginAudioProcessorEditor(){
+    setLookAndFeel(nullptr);
 }
 
 //==============================================================================
@@ -70,6 +71,6 @@ void AxelDelayPluginAudioProcessorEditor::resized(){
     mixKnob.setTopLeftPosition(20, 20);
     gainKnob.setTopLeftPosition(mixKnob.getX(), mixKnob.getBottom() + 10);
 
-    gainKnob.slider.setColour(juce::Slider::rotarySliderFillColourId,
-        juce::Colours::green);
+    /*gainKnob.slider.setColour(juce::Slider::rotarySliderFillColourId,
+        juce::Colours::green);*/
 }
